@@ -1,26 +1,66 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
+
+// react 相关插件
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
+
+// prettier 相关插件
+import prettierConfig from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 export default tseslint.config(
   { ignores: ['dist'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended, eslintPluginPrettierRecommended],
+    extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked, prettierConfig],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser
+      globals: globals.browser,
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
+      'react-refresh': reactRefresh,
+      'react-x': reactX,
+      'react-dom': reactDom,
+      prettier: prettierPlugin,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
-    }
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      ...reactX.configs['recommended-typescript'].rules,
+      ...reactDom.configs.recommended.rules,
+
+      // 添加 prettier 规则，将格式问题报告为错误
+      'prettier/prettier': 'error',
+      'no-console': 'off',
+      'no-debugger': 'off',
+      'max-len': 'off',
+      'no-multi-spaces': 'off', // 由 prettier 处理
+      'no-return-assign': 'off',
+      semi: 'off', // 由 prettier 处理
+      eqeqeq: 'error',
+      'jsx-quotes': 'off', // 由 prettier 处理
+      'import/prefer-default-export': 'off',
+      'import/extensions': 'off',
+      'import/no-unresolved': 'off',
+      'no-multiple-empty-lines': 'off', // 由 prettier 处理
+      'no-param-reassign': 'off',
+      '@typescript-eslint/no-shadow': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/indent': 'off', // 由 prettier 处理
+      '@typescript-eslint/no-empty-object-typ': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+    },
   }
-)
+);
