@@ -2,7 +2,7 @@ import Layout from '@/components/Layout';
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-const Home = lazy(() => import('@/views/Home.tsx'));
+const Home = lazy(() => import('@/views/Home/Home'));
 const About = lazy(() => import('@/views/About.tsx'));
 
 const router = createBrowserRouter([
