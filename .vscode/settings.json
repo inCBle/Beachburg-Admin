@@ -1,5 +1,5 @@
 {
-  "tailwindCSS.experimental.configFile": "internal/tailwind-config/src/index.ts",
+  "tailwindCSS.experimental.configFile": "tailwind.config.ts",
   // workbench
   "workbench.list.smoothScrolling": true,
   "workbench.startupEditor": "newUntitledFile",
@@ -222,6 +222,8 @@
     "napi",
     "nolebase",
     "rollup",
+    "Sider",
+    "tailwindcss",
     "tseslint",
     "vitest",
     "zustand"
