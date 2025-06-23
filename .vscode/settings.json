@@ -217,6 +217,7 @@
     "axios",
     "Beachburg",
     "dotenv",
+    "ignorecase",
     "isequal",
     "jspm",
     "napi",
@@ -226,6 +227,7 @@
     "tailwindcss",
     "tseslint",
     "vitest",
+    "webp",
     "zustand"
   ]
 }
