@@ -23,6 +23,11 @@ const App: React.FC = () => {
       icon: <BookFilled />,
       label: <NavLink to={'/about'}>关于我们</NavLink>,
     },
+    {
+      key: '/Text',
+      icon: <BookFilled />,
+      label: <NavLink to={'/test'}>测试table</NavLink>,
+    },
   ];
 
   return (
