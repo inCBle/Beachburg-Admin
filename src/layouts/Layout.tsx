@@ -1,10 +1,40 @@
 import React, { Suspense, useState } from 'react';
-import { BookFilled, HomeFilled, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, type MenuProps } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
 import logo from '@/assets/react.svg';
+import { basicRouter } from '@/router/basicRouter';
+import type { MenuRecordRaw } from '@/router/types';
 
 const { Header, Sider, Content } = Layout;
+
+const sortByMenus = (routes: MenuRecordRaw[] = []) => routes.sort((a, b) => (a?.order ?? 999) - (b?.order ?? 999));
+
+const getMenuItem = (routes: MenuRecordRaw[] = []): MenuProps['items'] => {
+  if (!routes.length) return [];
+  routes = routes.filter((item) => item.show !== false);
+  routes = sortByMenus(routes);
+
+  const menus: MenuProps['items'] = [];
+
+  for (const item of routes) {
+    if (item.path === '/') {
+      const children = sortByMenus(item.children);
+      return getMenuItem(children);
+    }
+
+    menus.push({
+      key: item.path!,
+      icon: item.icon,
+      disabled: item.disabled,
+      title: item.name,
+      label: <NavLink to={item.path!}>{item.name}</NavLink>,
+      children: item.children ? getMenuItem(item.children) : undefined,
+    });
+  }
+
+  return menus;
+};
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -12,23 +42,7 @@ const App: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const items: MenuProps['items'] = [
-    {
-      key: '/home',
-      icon: <HomeFilled />,
-      label: <NavLink to={'/home'}>首页</NavLink>,
-    },
-    {
-      key: '/About',
-      icon: <BookFilled />,
-      label: <NavLink to={'/about'}>关于我们</NavLink>,
-    },
-    {
-      key: '/Text',
-      icon: <BookFilled />,
-      label: <NavLink to={'/test'}>测试table</NavLink>,
-    },
-  ];
+  const items = getMenuItem(basicRouter);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
