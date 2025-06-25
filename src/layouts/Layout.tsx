@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, type MenuProps } from 'antd';
+import { Avatar, Button, Layout, Menu, theme, type MenuProps } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
 import logo from '@/assets/react.svg';
 import { basicRouter } from '@/router/basicRouter';
@@ -38,6 +38,7 @@ const getMenuItem = (routes: MenuRecordRaw[] = []): MenuProps['items'] => {
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const username = 'admin';
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -48,22 +49,28 @@ const App: React.FC = () => {
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <NavLink className="flex items-center justify-center my-2" to="/home">
-          <img className="w-[50px] h-[50px]" src={logo} alt="logo" />
+          <img className="w-[40px] h-[40px]" src={logo} alt="logo" />
+          {!collapsed && <span className="text-xl font-bold text-white ml-1">比奇堡考勤系统</span>}
         </NavLink>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['/home']} items={items} />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
+          <section className="flex items-center justify-between">
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: '16px',
+                width: 64,
+                height: 64,
+              }}
+            />
+            <section>
+              <Avatar className="!bg-[#87d068] !mr-4 cursor-pointer">{username}</Avatar>
+            </section>
+          </section>
         </Header>
         <Content
           style={{
