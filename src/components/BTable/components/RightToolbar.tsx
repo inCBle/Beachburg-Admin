@@ -82,7 +82,7 @@ const RightToolbar: React.FC<RightToolbarProps> = ({
         label={openEye ? '隐藏搜索' : '显示搜索'}
         onClick={() => {
           const newOpenEye = !openEye;
-          setOpenEye(!newOpenEye);
+          setOpenEye(newOpenEye);
           if (onEyeToggle) {
             onEyeToggle(newOpenEye); // 将点击事件传递给父组件
           }
