@@ -1,9 +1,9 @@
 import type { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults } from 'axios';
 import axios from 'axios';
 import { merge } from 'lodash-es';
+import { message } from '@/utils/message';
 import { InterceptorManager } from './modules/interceptor';
 import { errorMessageInterceptor } from './modules/responseInterceptor/errorMessageInterceptor';
-import { message } from 'antd';
 
 class RequestClient {
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
@@ -78,7 +78,7 @@ request.addResponseInterceptor(
     const errorMessage = responseData?.error ?? responseData?.message ?? '';
 
     // 如果没有错误信息，则会根据状态码进行提示
-    message.error(errorMessage || msg);
+    message.error((errorMessage as string) || msg);
   })
 );
 
