@@ -1,5 +1,6 @@
 import { getUserInfo } from '@/api/login';
 import { useCountStore } from '@/store/useCountStore';
+import { HttpStatus } from '@/types/api';
 import { useRequest } from 'ahooks';
 import { Button, message } from 'antd';
 
@@ -11,11 +12,11 @@ function About() {
 
   async function handleLogin() {
     try {
-      const data = await runAsync();
-      if (data?.code !== 200) {
+      const res = await runAsync();
+      if (res?.code !== HttpStatus.SUCCESS) {
         messageApi.open({
           type: 'error',
-          content: data?.message,
+          content: res?.message,
         });
       } else {
         messageApi.open({
