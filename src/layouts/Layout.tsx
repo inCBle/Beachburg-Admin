@@ -10,26 +10,42 @@ const { Header, Sider, Content } = Layout;
 
 const sortByMenus = (routes: MenuRecordRaw[] = []) => routes.sort((a, b) => (a?.order ?? 999) - (b?.order ?? 999));
 
-const getMenuItem = (routes: MenuRecordRaw[] = []): MenuProps['items'] => {
+const getPath = (path: string | undefined) => {
+  if (!path) return '';
+
+  path = path.replace(/\/:[\w-]+/g, '');
+  path = path.startsWith('/') ? path : '/' + path;
+  path = path.endsWith('/') ? path.slice(0, -1) : path;
+
+  return path;
+};
+
+const getMenuItem = (routes: MenuRecordRaw[] = [], parentPath: string = ''): MenuProps['items'] => {
   if (!routes.length) return [];
   routes = routes.filter((item) => item.show !== false);
   routes = sortByMenus(routes);
 
   const menus: MenuProps['items'] = [];
-
   for (const item of routes) {
-    if (item.path === '/') {
-      const children = sortByMenus(item.children);
-      return getMenuItem(children);
+    let path: string = parentPath;
+    let children: MenuProps['items'];
+    path += getPath(item.path);
+
+    if (item.children) {
+      children = getMenuItem(item.children, path);
+    }
+    if (!path) {
+      menus.push(...(children ?? []));
+      continue;
     }
 
     menus.push({
-      key: item.path!,
+      key: path,
       icon: item.icon,
       disabled: item.disabled,
       title: item.name,
-      label: <NavLink to={item.path!}>{item.name}</NavLink>,
-      children: item.children ? getMenuItem(item.children) : undefined,
+      label: <NavLink to={path}>{item.name}</NavLink>,
+      children,
     });
   }
 
