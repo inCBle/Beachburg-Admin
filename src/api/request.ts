@@ -1,9 +1,10 @@
-import type { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
 import axios from 'axios';
 import { merge } from 'lodash-es';
 import { message } from '@/utils/message';
 import { InterceptorManager } from './modules/interceptor';
 import { errorMessageInterceptor } from './modules/responseInterceptor/errorMessageInterceptor';
+import type { HttpResponse } from '@/types/api';
 
 class RequestClient {
   public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
@@ -29,26 +30,26 @@ class RequestClient {
     this.addResponseInterceptor = interceptorManager.addResponseInterceptor.bind(interceptorManager);
   }
 
-  public get<T = any>(url: string, config: AxiosRequestConfig): Promise<T> {
-    return this.request(url, { ...config, method: 'GET' });
+  public get<T = any>(url: string, config: AxiosRequestConfig): Promise<HttpResponse<T>> {
+    return this.request<T>(url, { ...config, method: 'GET' });
   }
 
-  public post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    return this.request(url, { ...config, data, method: 'POST' });
+  public post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
+    return this.request<T>(url, { ...config, data, method: 'POST' });
   }
 
-  public put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    return this.request(url, { ...config, data, method: 'PUT' });
+  public put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<HttpResponse<T>> {
+    return this.request<T>(url, { ...config, data, method: 'PUT' });
   }
 
-  public delete<T = any>(url: string, config: AxiosRequestConfig): Promise<T> {
-    return this.request(url, { ...config, method: 'DELETE' });
+  public delete<T = any>(url: string, config: AxiosRequestConfig): Promise<HttpResponse<T>> {
+    return this.request<T>(url, { ...config, method: 'DELETE' });
   }
 
-  public async request<T>(url: string, config: AxiosRequestConfig): Promise<T> {
+  public async request<T>(url: string, config: AxiosRequestConfig): Promise<HttpResponse<T>> {
     try {
-      const response = await this.instance<T>({ url, ...config });
-      return response as T;
+      const response: AxiosResponse<T> = await this.instance<T>({ url, ...config });
+      return response.data as HttpResponse<T>;
     } catch (error: any) {
       throw error.response ? error.response.data : error;
     }
@@ -63,9 +64,7 @@ request.addRequestInterceptor({ fulfilled: (config) => config });
 // 处理返回的响应数据格式
 request.addResponseInterceptor({
   fulfilled: (response) => {
-    const { data } = response;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return data;
+    return response;
   },
 });
 
