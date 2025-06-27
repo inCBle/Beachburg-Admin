@@ -1,6 +1,10 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { basicRouter } from './basicRouter';
+import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 
-const router = createBrowserRouter(basicRouter);
+import { basicRouter } from './modules/basicRouter';
+import { fallbackRouter } from './modules/fallback';
+
+const routes: RouteObject[] = [...basicRouter, ...fallbackRouter];
+
+const router = createBrowserRouter(routes);
 
 export default router;

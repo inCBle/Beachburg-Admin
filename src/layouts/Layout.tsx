@@ -3,7 +3,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Avatar, Button, Layout, Menu, theme, type MenuProps } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
 import logo from '@/assets/react.svg';
-import { basicRouter } from '@/router/basicRouter';
+import { basicRouter } from '@/router/modules/basicRouter';
 import type { MenuRecordRaw } from '@/router/types';
 
 const { Header, Sider, Content } = Layout;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Result } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-const NotFound: React.FC = () => {
+const Forbidden: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -11,9 +11,9 @@ const NotFound: React.FC = () => {
 
   return (
     <Result
-      status="404"
-      title="404"
-      subTitle="Sorry, the page you visited does not exist."
+      status="403"
+      title="403"
+      subTitle="Sorry, you are not authorized to access this page."
       extra={
         <Button type="primary" onClick={handleClick}>
           Back Home
@@ -23,4 +23,4 @@ const NotFound: React.FC = () => {
   );
 };
 
-export default NotFound;
+export default Forbidden;

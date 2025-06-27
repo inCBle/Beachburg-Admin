@@ -2,37 +2,24 @@ import { lazy } from 'react';
 import { BookFilled, HomeFilled } from '@ant-design/icons';
 
 import Layout from '@/layouts/Layout';
-import type { MenuRecordRaw } from './types';
-
-const NotFound = lazy(() => import('@/views/_core/fallback/NotFound.tsx'));
-
-const Home = lazy(() => import('@/views/Home/Home.tsx'));
-const About = lazy(() => import('@/views/About.tsx'));
-const TestTable = lazy(() => import('@/views/TestTable.tsx'));
-const UserList = lazy(() => import('@/views/UserManager/List.tsx'));
-const UserDetails = lazy(() => import('@/views/UserManager/Details.tsx'));
+import type { MenuRecordRaw } from '../types';
 
 export const basicRouter: MenuRecordRaw[] = [
   {
-    element: <Layout />,
+    Component: Layout,
     children: [
-      {
-        path: '*',
-        element: <NotFound />,
-        show: false,
-      },
       {
         index: true,
         path: '/home',
         name: '首页',
-        element: <Home />,
+        Component: lazy(() => import('@/views/Home/Home.tsx')),
         icon: <HomeFilled />,
         order: 1,
       },
       {
         path: '/about',
         name: '关于我们',
-        element: <About />,
+        Component: lazy(() => import('@/views/About.tsx')),
         icon: <BookFilled />,
         order: 10,
       },
@@ -40,7 +27,7 @@ export const basicRouter: MenuRecordRaw[] = [
         path: '/disablePage',
         disabled: true,
         name: '禁用菜单',
-        element: <About />,
+        Component: lazy(() => import('@/views/About.tsx')),
         icon: <BookFilled />,
         order: 9,
       },
@@ -51,13 +38,13 @@ export const basicRouter: MenuRecordRaw[] = [
           {
             path: 'list',
             name: '用户列表',
-            element: <UserList />,
+            Component: lazy(() => import('@/views/UserManager/List.tsx')),
             icon: <BookFilled />,
           },
           {
             path: 'details',
             name: '用户详情',
-            element: <UserDetails />,
+            Component: lazy(() => import('@/views/UserManager/Details.tsx')),
             icon: <BookFilled />,
           },
         ],
@@ -65,7 +52,7 @@ export const basicRouter: MenuRecordRaw[] = [
       {
         path: '/basicTable',
         name: '测试 table',
-        element: <TestTable />,
+        Component: lazy(() => import('@/views/TestTable.tsx')),
         icon: <BookFilled />,
       },
     ],

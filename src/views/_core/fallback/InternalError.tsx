@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Result } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-const NotFound: React.FC = () => {
+const InternalError: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -11,9 +11,9 @@ const NotFound: React.FC = () => {
 
   return (
     <Result
-      status="404"
-      title="404"
-      subTitle="Sorry, the page you visited does not exist."
+      status="500"
+      title="500"
+      subTitle="Sorry, something went wrong."
       extra={
         <Button type="primary" onClick={handleClick}>
           Back Home
@@ -23,4 +23,4 @@ const NotFound: React.FC = () => {
   );
 };
 
-export default NotFound;
+export default InternalError;
