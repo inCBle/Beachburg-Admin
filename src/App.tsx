@@ -8,10 +8,10 @@ import { ConfigProvider } from 'antd';
 function App() {
   return (
     <ConfigProvider locale={zhCN}>
-       <AntdApp>
-      <StaticMessage />
-      <RouterProvider router={router} />
-    </AntdApp>
+      <AntdApp>
+        <StaticMessage />
+        <RouterProvider router={router} />
+      </AntdApp>
     </ConfigProvider>
   );
 }

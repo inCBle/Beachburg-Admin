@@ -73,10 +73,10 @@ const BTable = <T extends object = object>({
     setTablePagination(newPagination);
     // 在实际应用中，这里应该触发数据加载逻辑，比如从服务器获取对应页面的数据
     // 示例中，我们只是简单地模拟数据加载
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-    const newData = tableDataSource.slice(start, end);
-    setTableDataSource(newData);
+    // const start = (page - 1) * pageSize;
+    // const end = start + pageSize;
+    // const newData = tableDataSource.slice(start, end);
+    // setTableDataSource(newData);
   };
 
   // const handleShowSizeChange = (current: number, pageSize: number) => {
@@ -129,6 +129,7 @@ const BTable = <T extends object = object>({
         })}
         {...restProps}
       />
+      {/* 分页组件 */}
       <Pagination initialPagination={paginationForPaginationComponent} onChange={handlePageChange} />
     </>
   );
