@@ -1,5 +1,6 @@
 import { lazy } from 'react';
-import { BookFilled, HomeFilled } from '@ant-design/icons';
+import { Navigate } from 'react-router-dom';
+import { BookFilled, HomeFilled, UserOutlined } from '@ant-design/icons';
 
 import Layout from '@/layouts/Layout';
 import type { MenuRecordRaw } from '../types';
@@ -10,11 +11,22 @@ export const basicRouter: MenuRecordRaw[] = [
     children: [
       {
         index: true,
+        Component: () => <Navigate to="/home" replace />,
+      },
+      {
+        index: true,
         path: '/home',
         name: '首页',
         Component: lazy(() => import('@/views/Home/Home.tsx')),
         icon: <HomeFilled />,
         order: 1,
+      },
+      {
+        path: '/attendance',
+        name: '上线考勤',
+        Component: lazy(() => import('@/views/Attendance/index.tsx')),
+        icon: <UserOutlined />,
+        order: 2,
       },
       {
         path: '/about',
